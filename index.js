@@ -45,6 +45,14 @@ async function main() {
             );
 
             for await (const event of eventStream) {
+                if (event.event === "on_tool_start") {
+                    console.log(`\n🔧 [Tool Invoked: ${event.name}]`);
+                }
+                if (event.event === "on_tool_end") {
+                    console.log(`✔️ [Tool Output Received]\n`);
+                    process.stdout.write("AI  > ");
+                }
+
                 // Look for chat model streaming chunks
                 if (event.event === "on_chat_model_stream" && event.data?.chunk?.content) {
                     process.stdout.write(event.data.chunk.content);
